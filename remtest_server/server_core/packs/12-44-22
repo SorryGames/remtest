@@ -1,0 +1,14 @@
+{
+	"name": "English. Products",
+	"id": "12-44-22",
+	"date": "15.03.2019",
+	"creator": "matvey",
+	"description": "The first test in Remtest project. It's about products :)",
+	"data": [
+		"Apple product": "iPhone",
+		"Belarus product": "MAZ",
+		"Russia product": "VAZ",
+		"Germany product": "Bosch",
+		"USSR product": "T-34"
+	]
+}

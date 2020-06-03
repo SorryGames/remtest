@@ -1,7 +1,7 @@
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello():
-    return "you are lox!"
+@app.route("/search", methods=["GET"])
+def search():
+    return "ypa! your data has arrived: {}".format(request.args.get("key", ""));
