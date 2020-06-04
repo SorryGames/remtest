@@ -1,6 +1,11 @@
 "use strict";
 
 
+function open_test(element_id) {
+	console.log(element_id.dataset.id);
+}
+
+
 function startup() {
 	$(".ajax-content").load("./html_data/startup.html", function(response_text, status_text, xhr) {
 	if(status_text === "success")		

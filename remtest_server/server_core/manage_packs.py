@@ -1,15 +1,19 @@
+from . import core
 import json
 import re
 
 
-def get_packs(search_key, app):
+def get_packs(search_key):
+    packs = _get_packs()
+    #
     if search_key.startswith("#"):
-        search_hashtag(search_key[1:])
+        return _search_hashtag(packs, search_key[1:])
     else:
-        search_word(search_key)
-    #
-    #
-    with app.open_resource("packs.conf", "r") as file:
+        return _search_word(packs, search_key)
+
+
+def _get_packs():
+    with core.load_file("packs.conf") as file:
         filenames = file.read()
     #
     filenames = [ i for i in filenames.split(" ") if i ]
@@ -17,14 +21,21 @@ def get_packs(search_key, app):
     packs = []
     for i in filenames:
         i += ".json"
-        with app.open_resource("packs/{}".format(i), "r") as file:
+        with core.load_file("packs/{}".format(i)) as file:
             packs.append(json.load(file))
-            # re.findall()
     #
     return packs
 
-def search_hashtag(search_key):
-    pass
 
-def search_word(search_key): 
-    search_word
+
+
+def _search_hashtag(packs, search_key):
+    return packs
+
+
+
+def _search_word(packs, search_key): 
+    filtered_packs = sorted(packs, key=lambda element: len(re.findall(search_key, str(element))))
+    filtered_packs = [ i for i in filtered_packs if len(re.findall(search_key, str(i))) > 0 ]
+    filtered_packs = filtered_packs[::-1]
+    return filtered_packs
