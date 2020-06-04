@@ -2,7 +2,7 @@
 
 
 function startup() {
-	$(".ajax-content").load("./html_data/startup.html", function(response_text, status_text, xhr){
+	$(".ajax-content").load("./html_data/startup.html", function(response_text, status_text, xhr) {
 	if(status_text === "success")		
 		toggle_navbar();
 		toggle_active();
@@ -10,15 +10,13 @@ function startup() {
 }
 
 function popular() {
-	$(".ajax-content").load("./html_data/popular.html", function(response_text, status_text, xhr){
-	if(status_text === "success")		
-		toggle_navbar();
-		toggle_active("#popular");
-	});
+	make_search("#popular");
+	toggle_navbar();
+	toggle_active("#popular");
 }
 
 function add_pack() {
-	$(".ajax-content").load("./html_data/add_pack.html", function(response_text, status_text, xhr){
+	$(".ajax-content").load("./html_data/add_pack.html", function(response_text, status_text, xhr) {
 	if(status_text === "success")		
 		toggle_navbar();
 		toggle_active("#add_pack");
@@ -26,7 +24,7 @@ function add_pack() {
 }
 
 function about() {
-	$(".ajax-content").load("./html_data/about.html", function(response_text, status_text, xhr){
+	$(".ajax-content").load("./html_data/about.html", function(response_text, status_text, xhr) {
 	if(status_text === "success")		
 		toggle_navbar();
 		toggle_active("#about");
@@ -35,23 +33,27 @@ function about() {
 
 
 
-function make_search() {
-	var search_value = $("input.form-control").val();
+function make_search(search_value) {
+	if (typeof search_value === "undefined") {
+		var search_value = $("input.form-control").val();
+	}
+	$("input.form-control").val("");
 
 	if (search_value.length > 0) {
-		$("input.form-control").val("");
 		$.ajax({
 			url: "server/search",
-			type: "get",
+			type: "GET",
 			data: {
 				key: search_value.toString()
 			},
 			success: function(response) {
-				console.log(response);
+				$("div.ajax-content").html(response);
+				footer_move();
 			}
 		});
 	}
-
+	toggle_navbar();
+	toggle_active();
 }
 
 

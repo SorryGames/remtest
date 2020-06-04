@@ -4,11 +4,11 @@
 	"date": "15.03.2019",
 	"creator": "matvey",
 	"description": "The first test in Remtest project. It's about products :)",
-	"data": [
+	"data": [{
 		"Apple product": "iPhone",
 		"Belarus product": "MAZ",
 		"Russia product": "VAZ",
 		"Germany product": "Bosch",
 		"USSR product": "T-34"
-	]
+	}]
 }
