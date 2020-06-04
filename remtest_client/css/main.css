@@ -107,6 +107,7 @@ h1.display-5:after {
 
 p.description {
 	font-family: 'Source Sans Pro';
+	margin: auto;
 }
 div.description {
 	margin: 10px;
@@ -211,7 +212,31 @@ hr.name-id {
 }
 
 
+p.question-text.el-name {
+	margin-top: 30px;
+	margin-bottom: 10px;
+	height: auto;
+}
+div.question-text.element-pages {
+	height: auto;
+}
+div.question-element.element-list {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
 
+div.right-answer {
+	background-color: #57FFDD;
+}
+div.wrong-answer {
+	background-color: #FF5778;
+}
+div.right-answer:hover {
+	background-color: #57FFDD;
+}
+div.wrong-answer:hover {
+	background-color: #FF5778;
+}
 
 
 @media screen and (max-width: 1200px) {

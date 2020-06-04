@@ -1,16 +1,12 @@
 "use strict";
 
 
-function open_test(element_id) {
-	console.log(element_id.dataset.id);
-}
-
-
 function startup() {
 	$(".ajax-content").load("./html_data/startup.html", function(response_text, status_text, xhr) {
-	if(status_text === "success")		
-		toggle_navbar();
-		toggle_active();
+		if(status_text === "success") {
+			toggle_navbar();
+			toggle_active();
+		}	
 	});
 }
 
@@ -22,20 +18,48 @@ function popular() {
 
 function add_pack() {
 	$(".ajax-content").load("./html_data/add_pack.html", function(response_text, status_text, xhr) {
-	if(status_text === "success")		
-		toggle_navbar();
-		toggle_active("#add_pack");
+		if(status_text === "success") {
+			toggle_navbar();
+			toggle_active("#add_pack");
+		}	
  	});
 }
 
 function about() {
 	$(".ajax-content").load("./html_data/about.html", function(response_text, status_text, xhr) {
-	if(status_text === "success")		
-		toggle_navbar();
-		toggle_active("#about");
+		if(status_text === "success") {
+			toggle_navbar();
+			toggle_active("#about");
+		}	
 	});
 }
 
+
+function load_test(element_id) {
+	var test_id = element_id.dataset.id;
+
+	$(".ajax-content").load("./html_data/test.html", function(response_text, status_text, xhr) {
+		if(status_text === "success") {
+			toggle_navbar();
+			toggle_active("#about");
+			$.ajax({
+				url: "server/loadtest",
+				type: "GET",
+				data: {
+					id: test_id.toString()
+				},
+				success: function(response) {
+					footer_move();
+					toggle_navbar();
+					toggle_active();
+					init_test(response);
+				}
+			});
+		}		
+	});
+
+
+}
 
 
 function make_search(search_value) {

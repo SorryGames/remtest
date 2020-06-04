@@ -23,6 +23,17 @@ def search():
                             packs=_packs)
 
 
+
+@app.route("/loadtest", methods=["GET"])
+def load_test():
+    _id = request.args.get("id")
+    _id = _id.replace("-", "")
+    #
+    return str(load_file("packs/{}.json".format(_id)).read())
+
+
+
+
 def load_file(path_to):
     return app.open_resource(path_to, "r")
 
