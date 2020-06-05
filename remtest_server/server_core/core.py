@@ -35,10 +35,9 @@ def load_test():
 
 @app.route("/upload_test", methods=["POST"])
 def upload_test():
-    if "new_test" not in request.files:
-        # flash("bad request")
-        return redirect("https://google.com")
-    f = request.files["new_test"]
+    if "new_pack" not in request.files:
+        pass
+    f = request.files["new_pack"]
     f.save("packs/{}.json".format(manage_packs.get_new_test_id()))
 
 
