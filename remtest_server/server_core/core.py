@@ -27,10 +27,19 @@ def search():
 @app.route("/loadtest", methods=["GET"])
 def load_test():
     _id = request.args.get("id")
-    _id = _id.replace("-", "")
     #
-    return str(load_file("packs/{}.json".format(_id)).read())
+    test_content = manage_packs.get_pack_content(_id)
+    #
+    return test_content
 
+
+@app.route("/upload_test", methods=["POST"])
+def upload_test():
+    if "new_test" not in request.files:
+        # flash("bad request")
+        return redirect("https://google.com")
+    f = request.files["new_test"]
+    f.save("packs/{}.json".format(manage_packs.get_new_test_id()))
 
 
 

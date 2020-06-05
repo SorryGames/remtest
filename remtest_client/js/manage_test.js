@@ -5,23 +5,50 @@ var test_data = {},
 	test_data_rating = {},
 	blacklist = {}, 
 	answer_order = [],
-	get_answer = false;
+	get_answer = false,
+	test_id = undefined,
+	test_inverse_mode = undefined;
+
+
 
 
 function init_test(json_data) {
 	test_data = JSON.parse(json_data).data[0];
-	
+	blacklist = {};
+	get_answer = false;
+
+	if (test_inverse_mode == 1) {
+		let new_test_data = {};
+		for (let key in test_data) {
+			new_test_data[test_data[key]] = key;
+		}
+		test_data = new_test_data;
+	}
+
 	for (let key in test_data) {
 		test_data_rating[key] = 0;
 	}
 
+	$("#test-id").html("[ #" + test_id + " ]");
 	reload_test();
 }
 
 
-function reload_test() {
-	var question = undefined;
+function update_stat() {
+	var test_fail = 0;
+	for (let key in test_data) {
+		if (test_data_rating[key] < 2) {
+			test_fail += 1;
+		}
+	}
+	$("#test-stat").html("[ Problems: " + test_fail.toString() + "/" + Object.keys(test_data).length + " ]");
+}
 
+
+function reload_test() {
+	update_stat()
+
+	var question = undefined;
 	for (let element in blacklist) {
 		blacklist[element] -= 1;
 	}
@@ -42,7 +69,20 @@ function reload_test() {
 	}
 	if (typeof question === "undefined") {
 		question = rand_key(test_data);
-	} 	blacklist[question] = 3;
+	}
+
+	var equal_rating_questions = [ question ];
+	for (let key in test_data) {
+		if (blacklist.hasOwnProperty(key)) {
+			continue;
+		}
+		if (test_data_rating[key] === test_data_rating[question]) {
+			equal_rating_questions.push(key);
+		}
+	}
+	question = get_random_element(equal_rating_questions);
+	blacklist[question] = 5;
+
 
 	$("#question").html(question + "?");
 
@@ -88,7 +128,7 @@ function play_test(button_id) {
 
 	if (answer_order[button_id] !== answer_order[true_answer]) {
 		$("#answer" + button_id.toString()).addClass("wrong-answer");
-		test_data_rating[question] -= 1;
+		test_data_rating[question] -= 5;
 	} else {
 		test_data_rating[question] += 1;
 	}

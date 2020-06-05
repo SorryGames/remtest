@@ -3,6 +3,14 @@ import json
 import re
 
 
+
+def get_pack_content(test_id):
+    test_id = test_id.replace("-", "")
+    content = core.load_file("packs/{}.json".format(test_id)).read()
+    #
+    return content
+
+
 def get_packs(search_key):
     packs = _get_packs()
     #

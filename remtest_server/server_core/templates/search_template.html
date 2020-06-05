@@ -17,15 +17,18 @@
 <div class="search-result">
     
     {% for pack in packs %}
-    <div class="element-list col-12 offset-0 col-lg-8 offset-lg-2" onclick="load_test(this)" data-id="{{ pack.id }}">
-      <div class="name-id">
-        <p class="el-name"> {{ pack.name }} </p>
-        <p class="el-id"> #{{ pack.id }}</p>
-      </div>
-      <hr class="name-id my-8">
-      <div class="description">
-      <p class="description"> {{ pack.description }} </p>
-      </div>
+    <div class="element-list col-12 offset-0 col-lg-8 offset-lg-2" onclick="start_test(this)" data-id="{{ pack.id }}">
+        <div class="name-id">
+            <p class="el-name"> {{ pack.name }} </p>
+            <p class="el-id"> #{{ pack.id }}</p>
+            <p class="el-history"> [ {{ pack.creator }} {{ pack.date }} ]</p>
+        </div>
+       
+        <hr class="name-id my-8">
+       
+        <div class="description">
+            <p class="description"> {{ pack.description }} </p>
+        </div>
     </div>
     {% endfor %}
 

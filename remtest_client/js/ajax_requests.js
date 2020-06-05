@@ -10,11 +10,28 @@ function startup() {
 	});
 }
 
+
+function upload_file() {
+	var new_pack = document.getElementById("upload-pack").files[0];
+
+	if (typeof new_pack === "undefined") {
+		$("#upload-pack-verdict").html("Error: no pack to send!")
+		return;
+	}
+	if (new_pack.size >= 100000) {
+		$("#upload-pack-verdict").html("Error: pack is too large to upload!")
+		return;
+	}
+	console.log(new_pack);
+}
+
+
 function popular() {
 	make_search("#popular");
 	toggle_navbar();
 	toggle_active("#popular");
 }
+
 
 function add_pack() {
 	$(".ajax-content").load("./html_data/add_pack.html", function(response_text, status_text, xhr) {
@@ -24,6 +41,7 @@ function add_pack() {
 		}	
  	});
 }
+
 
 function about() {
 	$(".ajax-content").load("./html_data/about.html", function(response_text, status_text, xhr) {
@@ -35,20 +53,34 @@ function about() {
 }
 
 
-function load_test(element_id) {
-	var test_id = element_id.dataset.id;
+function start_test(element_id) {
+	load_test(element_id.dataset.id, 0);
+}
+
+function inverse_test() {
+	if (test_inverse_mode == 0) {
+		test_inverse_mode = 1;
+	} else {
+		test_inverse_mode = 0;
+	}
+	load_test(test_id, test_inverse_mode);
+}
+
+
+function load_test(_test_id, _inverse_mode) {
 
 	$(".ajax-content").load("./html_data/test.html", function(response_text, status_text, xhr) {
 		if(status_text === "success") {
-			toggle_navbar();
-			toggle_active("#about");
 			$.ajax({
 				url: "server/loadtest",
 				type: "GET",
 				data: {
-					id: test_id.toString()
+					id: _test_id.toString(),
 				},
 				success: function(response) {
+					test_inverse_mode = _inverse_mode;
+					test_id = _test_id;
+
 					footer_move();
 					toggle_navbar();
 					toggle_active();
@@ -57,7 +89,6 @@ function load_test(element_id) {
 			});
 		}		
 	});
-
 
 }
 
