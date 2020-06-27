@@ -13,16 +13,40 @@ function startup() {
 
 function upload_file() {
 	var new_pack = document.getElementById("upload-pack").files[0];
+	document.getElementById("upload-pack").value = "";
 
 	if (typeof new_pack === "undefined") {
 		$("#upload-pack-verdict").html("Error: no pack to send!")
 		return;
 	}
-	if (new_pack.size >= 100000) {
-		$("#upload-pack-verdict").html("Error: pack is too large to upload!")
+	if (!new_pack.name.endsWith(".json")) {
+		$("#upload-pack-verdict").html("Error: invalid file format!")
 		return;
 	}
-	console.log(new_pack);
+	if (new_pack.size >= 50000) {
+		$("#upload-pack-verdict").html("Error: pack is too large to send!")
+		return;
+	}
+	var fdata = new FormData();
+	fdata.append("test-file", new_pack);
+
+	$.ajax({
+		url: "server/upload_test",
+		type: "POST",
+		data: fdata,
+		processData: false,
+		contentType: false,
+		beforeSend: function() {
+			$("#upload-pack-verdict").html("Status: sending test-file...");
+		},
+		success: function(response) {
+			console.log(response);
+			$("#upload-pack-verdict").html("Status: uploaded! Test ID: #" + response);
+		},
+		error: function() {
+			$("#upload-pack-verdict").html("Error: can't send test-file!");
+		}
+	});
 }
 
 

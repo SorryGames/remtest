@@ -11,7 +11,7 @@ app = Flask(__name__)
 def search():
     _page_number = int(request.args.get("page", "1"))
     _key = request.args.get("key", "#all")
-    _packs = manage_packs.get_packs(_key)
+    _packs = manage_packs.find_packs(_key)
     _result_amount = len(_packs)
     #
     _packs = _packs[(_page_number - 1) * 10 : (_page_number) * 10]
@@ -35,17 +35,19 @@ def load_test():
 
 @app.route("/upload_test", methods=["POST"])
 def upload_test():
-    if "new_pack" not in request.files:
+    if "test-file" not in request.files:
         pass
-    f = request.files["new_pack"]
-    f.save("packs/{}.json".format(manage_packs.get_new_test_id()))
+    #
+    return manage_packs.add_pack(request.files["test-file"])
+    #
+    #
+    new_test_id = manage_packs.get_new_test_id()
+    #
+    test_file.save("/var/www/remtest/remtest_server/server_core/packs/{}.json".format(new_test_id))
+    #
+    return str(new_test_id)
 
 
 
 def load_file(path_to):
     return app.open_resource(path_to, "r")
-
-
-
-if __name__ == "__main__":
-  app.run()
